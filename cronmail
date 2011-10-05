@@ -1,0 +1,117 @@
+hh="*"
+mm='*'
+dd='*'
+mo='*'
+da='*'
+ss=''
+em=''
+at=''
+sb=''
+msg=''
+
+while true
+do
+	clear	
+	echo $msg
+	cat << 'MENU'
+		T....................Specify Time
+		D....................Specify Date
+		Y....................Specify Day
+		E....................Specify E-mail
+		A....................Specify Attachment
+		U....................Specify Subject
+		C....................Current Entry
+		R....................Reset Entry
+		S....................Save entry to cron
+		Q....................Quit
+MENU
+	echo -n 'Enter your choice $ '
+	read cmd rest
+
+	case ${cmd} in
+		[Tt]) echo -n 'Please enter a time (HH[0-23]:MM[0-59]) $ '
+
+			read time rest
+			
+			if [[ "$time" =~ ^([0-9]|1[0-9]|2[0-3]):([0-9]|[1-5][0-9])$ ]]
+			then
+				hh=`echo $time | cut -d':' -f1`
+				mm=`echo $time | cut -d':' -f2`
+				msg='Success: Time Saved'
+			else
+				msg="Error: Invalid Time Format $time"
+			fi
+			;;
+		[Dd]) echo -n 'Please enter a date (DD[1-31]-MM[1-12]) $ '
+
+			read date rest
+
+			if [[ "$date" =~ ^([1-9]|1[0-9]|2[0-9]|3[0-1])-([0-9]|1[0-2])$ ]]
+			then
+				dd=`echo $date | cut -d'/' -f1`
+				mo=`echo $date | cut -d'/' -f2`
+				msg='Success: Date Saved'
+			else
+				msg="Error: Invalid Date Format $date"
+			fi
+			;;
+		[Yy]) echo -n 'Please enter a day (0-6) (Sunday = 0) $ '
+
+			read day rest
+
+			if [[ "$day" =~ [0-6]{1} ]]
+			then
+				da=`echo $day`
+				msg='Success: Day Saved'
+			else
+				msg="Error: Invalid Day $day"
+			fi
+			;;
+		[Ee]) echo -n 'Please enter the receivering e-mail $ '
+
+			read email rest
+
+			if [[ "$email" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Z]{2,6}$ ]]
+			then
+				em=`echo $email`
+				msg='Success: E-mai Saved'
+			else
+				msg="Error: Invalid E-mail Format $email"
+			fi
+			;;
+		[Aa]) echo -n 'Please enter the filename path of the attachment $ '
+
+			read attach rest
+
+			if [ -x "$attach" -o -f "$attach" ]
+			then
+				at=`echo $attach`
+				msg='Success: Attachment Saved'
+			else
+				msg="Error: File doesn't exist $attach"
+			fi
+			;;
+		[Uu]) echo -n 'Please enter subject of the e-mail $ '
+
+			read subj rest
+
+			sb=`echo $subj`
+			;;
+		[Cc]) msg="Entry: $hh $mm $dd $mo $da /bin/uuencode $at $at | /bin/mailx -s $sb $em" ;;
+		[Rr])
+			hh='*'
+			mm='*'
+			dd='*'
+			mo='*'
+			da='*'
+			em=''
+			at=''
+			sb=''
+			msg='Success: Entry reset'
+			;;
+		[Ss]) (crontab -l; echo "$hh $mm $dd $mo $da /bin/uuencode $at $at | /bin/mailx -s $sb $em") | crontab -
+			msg='Saved Successfully'
+			;; 
+		[Qq]) exit ;;
+	esac
+done
