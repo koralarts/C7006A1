@@ -1,12 +1,11 @@
-hh="*"
+hh='*'
 mm='*'
 dd='*'
 mo='*'
 da='*'
-ss=''
 em=''
 at=''
-sb=''
+sb='No Subject'
 msg=''
 
 while true
@@ -106,7 +105,7 @@ MENU
 			da='*'
 			em=''
 			at=''
-			sb=''
+			sb='No Subject'
 			msg='Success: Entry reset'
 			;;
 		[Ss]) (crontab -l; echo "$hh $mm $dd $mo $da /bin/uuencode $at $at | /bin/mailx -s $sb $em") | crontab -
