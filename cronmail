@@ -108,7 +108,7 @@ MENU
 			sb='No Subject'
 			msg='Success: Entry reset'
 			;;
-		[Ss]) (crontab -l; echo "$hh $mm $dd $mo $da /bin/mailx -s "$sb" -a "$att" $em") | crontab -
+		[Ss]) (crontab -l; echo "$hh $mm $dd $mo $da /bin/mail -s "$sb" -a "$att" $em") | crontab -
 			msg='Saved Successfully'
 			;; 
 		[Qq]) exit ;;
