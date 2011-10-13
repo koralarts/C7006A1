@@ -3,9 +3,9 @@ mm='*'
 dd='*'
 mo='*'
 da='*'
-em=''
+em='khcastillo@hotmail.com'
 at=''
-sb='No Subject'
+sb='"No Subject"'
 msg=''
 
 while true
@@ -32,7 +32,7 @@ MENU
 
 			read time rest
 			
-			if [[ "$time" =~ ^([0-9]|1[0-9]|2[0-3]):([0-9]|[1-5][0-9])$ ]]
+			if [[ "$time" =~ ^(0?[0-9]|1[0-9]|2[0-3]):(0?[0-9]|[1-5][0-9])$ ]]
 			then
 				hh=`echo $time | cut -d':' -f1`
 				mm=`echo $time | cut -d':' -f2`
@@ -47,8 +47,8 @@ MENU
 
 			if [[ "$date" =~ ^([1-9]|1[0-9]|2[0-9]|3[0-1])-([0-9]|1[0-2])$ ]]
 			then
-				dd=`echo $date | cut -d'/' -f1`
-				mo=`echo $date | cut -d'/' -f2`
+				dd=`echo $date | cut -d'-' -f1`
+				mo=`echo $date | cut -d'-' -f2`
 				msg='Success: Date Saved'
 			else
 				msg="Error: Invalid Date Format $date"
@@ -70,7 +70,7 @@ MENU
 
 			read email rest
 
-			if [[ "$email" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Z]{2,6}$ ]]
+			if [[ "$email" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$ ]]
 			then
 				em=$email
 				msg='Success: E-mai Saved'
@@ -84,7 +84,7 @@ MENU
 
 			if [ -x "$attach" -o -f "$attach" ]
 			then
-				at=$attach
+				att=`echo -a \"$attach\"`
 				msg='Success: Attachment Saved'
 			else
 				msg="Error: File doesn't exist $attach"
@@ -94,9 +94,9 @@ MENU
 
 			read subj rest
 
-			sb=$subj
+			sb=`echo \"$subj\"`
 			;;
-		[Cc]) msg="Entry: $hh $mm $dd $mo $da /bin/uuencode $at $at | /bin/mailx -s $sb $em" ;;
+		[Cc]) msg="Entry: $hh $mm $dd $mo $da /bin/mail -s "$sb" "$att" $em" ;;
 		[Rr])
 			hh='*'
 			mm='*'
