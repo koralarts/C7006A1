@@ -60,7 +60,7 @@ MENU
 
 			if [[ "$day" =~ [0-6]{1} ]]
 			then
-				da=`echo $day`
+				da=$day
 				msg='Success: Day Saved'
 			else
 				msg="Error: Invalid Day $day"
@@ -72,7 +72,7 @@ MENU
 
 			if [[ "$email" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Z]{2,6}$ ]]
 			then
-				em=`echo $email`
+				em=$email
 				msg='Success: E-mai Saved'
 			else
 				msg="Error: Invalid E-mail Format $email"
@@ -84,7 +84,7 @@ MENU
 
 			if [ -x "$attach" -o -f "$attach" ]
 			then
-				at=`echo $attach`
+				at=$attach
 				msg='Success: Attachment Saved'
 			else
 				msg="Error: File doesn't exist $attach"
@@ -94,7 +94,7 @@ MENU
 
 			read subj rest
 
-			sb=`echo $subj`
+			sb=$subj
 			;;
 		[Cc]) msg="Entry: $hh $mm $dd $mo $da /bin/uuencode $at $at | /bin/mailx -s $sb $em" ;;
 		[Rr])
@@ -108,9 +108,10 @@ MENU
 			sb='No Subject'
 			msg='Success: Entry reset'
 			;;
-		[Ss]) (crontab -l; echo "$hh $mm $dd $mo $da /bin/uuencode $at $at | /bin/mailx -s $sb $em") | crontab -
+		[Ss]) (crontab -l; echo "$hh $mm $dd $mo $da /bin/mailx -s $sb -a $at $em 2>&1 >> /7006A1_output.log") | crontab -
 			msg='Saved Successfully'
 			;; 
-		[Qq]) exit ;;
+		[Qq]) return ;;
+		*) msg="Invalid Command" ;;
 	esac
 done
