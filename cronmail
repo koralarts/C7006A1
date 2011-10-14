@@ -3,7 +3,7 @@ mm='*'
 dd='*'
 mo='*'
 da='*'
-em='khcastillo@hotmail.com'
+em='lukequeenan@gmail.com'
 at=''
 sb='"No Subject"'
 msg=''
@@ -66,19 +66,19 @@ MENU
 				msg="Error: Invalid Day $day"
 			fi
 			;;
-		[Ee]) echo -n 'Please enter the receivering e-mail $ '
+		[Ee]) echo -n 'Please enter the receiving e-mail $ '
 
 			read email rest
 
 			if [[ "$email" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$ ]]
 			then
 				em=$email
-				msg='Success: E-mai Saved'
+				msg='Success: E-mail Saved'
 			else
 				msg="Error: Invalid E-mail Format $email"
 			fi
 			;;
-		[Aa]) echo -n 'Please enter the filename path of the attachment $ '
+		[Aa]) echo -n 'Please enter the path and filename of the attachment $ '
 
 			read attach rest
 
@@ -90,7 +90,7 @@ MENU
 				msg="Error: File doesn't exist $attach"
 			fi
 			;;
-		[Uu]) echo -n 'Please enter subject of the e-mail $ '
+		[Uu]) echo -n 'Please enter the subject of the e-mail $ '
 
 			read subj rest
 
