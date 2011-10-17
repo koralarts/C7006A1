@@ -3,7 +3,7 @@ mm='*'
 dd='*'
 mo='*'
 da='*'
-em='lukequeenan@gmail.com'
+em='khcastillo@hotmail.com'
 at=''
 sb='"No Subject"'
 msg=''
@@ -84,7 +84,7 @@ MENU
 
 			if [ -x "$attach" -o -f "$attach" ]
 			then
-				att=`echo -a \"$attach\"`
+				at=`echo -a \"$attach\"`
 				msg='Success: Attachment Saved'
 			else
 				msg="Error: File doesn't exist $attach"
@@ -96,7 +96,7 @@ MENU
 
 			sb=`echo \"$subj\"`
 			;;
-		[Cc]) msg="Entry: $hh $mm $dd $mo $da /bin/mail -s "$sb" "$att" $em" ;;
+		[Cc]) msg="Entry: $hh $mm $dd $mo $da /bin/mail -s "$sb" "$at" $em" ;;
 		[Rr])
 			hh='*'
 			mm='*'
@@ -108,7 +108,7 @@ MENU
 			sb='No Subject'
 			msg='Success: Entry reset'
 			;;
-		[Ss]) (crontab -l; echo "$hh $mm $dd $mo $da /bin/mailx -s $sb -a $at $em 2>&1 >> /7006A1_output.log") | crontab -
+		[Ss]) (crontab -l; echo "$mm $hh $dd $mo $da /bin/mailx -s $sb $at $em 2>&1 >> /mail_log.log") | crontab -
 			msg='Saved Successfully'
 			;; 
 		[Qq]) return ;;
