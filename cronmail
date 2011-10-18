@@ -14,8 +14,12 @@ do
 	echo $msg
 	cat << 'MENU'
 		T....................Specify Time
+		M....................Specify Minute
+		H....................Specify Hour
 		D....................Specify Date
-		Y....................Specify Day
+		L....................Specify Day (Day)
+		O....................Specify Month
+		Y....................Specify Day (Mon-Sun)
 		E....................Specify E-mail
 		A....................Specify Attachment
 		U....................Specify Subject
@@ -41,6 +45,30 @@ MENU
 				msg="Error: Invalid Time Format $time"
 			fi
 			;;
+		[Mm]) echo -n 'Please enter minute (*/# or [0-59]) $ '
+			
+			read minute rest
+
+			if [[ "$minute" =~ ^((\*/)?(0?[0-9]|[1-5][0-9]))$ ]]
+			then
+				mm=`echo $minute`
+				msg='Success: Minute Saved'
+			else
+				msg="Error: Invalid Minute Format $minute"
+			fi
+			;;
+		[Hh]) echo -n 'Please enter hour (*/# or [0-23]) $ '
+
+			read hour rest
+
+			if [[ "$hour" =~ ^((\*/)?(0?[0-9]|1[0-9]|2[0-3])) ]]
+			then
+				hh=`echo $hour`
+				msg='Success: Hour Saved'
+			else
+				msg="Error: Invalid Minute Format $hour"
+			fi
+			;;
 		[Dd]) echo -n 'Please enter a date (DD[1-31]-MM[1-12]) $ '
 
 			read date rest
@@ -52,6 +80,30 @@ MENU
 				msg='Success: Date Saved'
 			else
 				msg="Error: Invalid Date Format $date"
+			fi
+			;;
+		[Ll]) echo -n 'Please enter the date (*/# or [1-31]) $ '
+
+			read day rest
+
+			if [[ "$day" =~ ^((\*/)?([1-9]|1[0-9]|2[0-9]|3[0-1]))$ ]]
+			then
+				dd=`echo $date`
+				msg='Success: Day Saved'
+			else
+				msg="Error: Invalid Date Format $day"
+			fi
+			;;
+		[Oo]) echo -n 'Please enter the month (*/# or [1-12]) $ '
+
+			read month rest
+
+			if [[ "$month" =~ ^((\*/)?([0-9]|1[0-2]))$ ]]
+			then
+				mo=`echo $month`
+				msg='Sucess: Month Saved'
+			else
+				msg="Error: Invalid Month Format $month"
 			fi
 			;;
 		[Yy]) echo -n 'Please enter a day (0-6) (Sunday = 0) $ '
@@ -96,7 +148,7 @@ MENU
 
 			sb=`echo \"$subj\"`
 			;;
-		[Cc]) msg="Entry: $hh $mm $dd $mo $da /bin/mail -s "$sb" "$at" $em" ;;
+		[Cc]) msg="Entry: $mm $hh $dd $mo $da /bin/mail -s "$sb" "$at" $em" ;;
 		[Rr])
 			hh='*'
 			mm='*'
